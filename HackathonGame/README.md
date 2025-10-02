@@ -7,19 +7,21 @@
 - Архитектура: модульная, feature api/impl, MVI (intent → model → effect/event → view)
 - Навигация: Voyager
 - DI: Koin
-- Язык: Kotlin (JVM + Native)
+- Язык: Kotlin (JVM \+ Native)
 
 ## Структура репозитория
 
 Корневые файлы Gradle и общие настройки:
+
 - `build.gradle.kts`, `settings.gradle.kts`, `gradle/`, `gradle.properties`
 
 Основные модули (извлечено по репозиторию):
+
 - `composeApp/` — Android/iOS entry для общего UI (Android Activity, iOS bridge)
 - `iosApp/` — iOS приложение (Xcode проект, SwiftUI обёртка, точка входа)
 - `common/` — общие вспомогательные библиотеки
   - `logger/` — логгер
-  - `mvi/` — реализация MVI (general + koin-voyager связка)
+  - `mvi/` — реализация MVI (general \+ koin-voyager связка)
   - `utils/` — утилиты (androidMain/commonMain/iosMain)
 - `core/` — базовые подсистемы
   - `network/` — сетевой слой (заготовки)
@@ -69,24 +71,29 @@
 ## Где искать ключевой код (ссылки по путям)
 
 Главный экран (Main):
+
 - UI: `feature/main-screen/main-screen-impl/.../compose/MainScreenContent.kt`
 - MVI: `feature/main-screen/main-screen-impl/.../MainScreenModel.kt`, `mvi` каталог
 - Экран: `feature/main-screen/main-screen-impl/.../MainScreen.kt`
 
 Курс (Course):
+
 - UI: `feature/course-screen/course-screen-impl/.../compose/CourseScreenContent.kt`
 - Элементы списка: `.../compose/components/SectionGroup.kt`, `SectionItem.kt`
 - MVI/Экран: `feature/course-screen/course-screen-impl/.../CourseScreenModel.kt`, `CourseScreen.kt`
 
 Квиз (Quiz):
+
 - UI: `feature/quiz-screen/quiz-screen-impl/.../compose/QuizScreenContent.kt`
 - MVI/Экран: `feature/quiz-screen/quiz-screen-impl/...`
 
 Теория (Theory):
-- UI: `feature/theory/theory-screen-impl/.../compose/TheoryScreenContent.kt` (TopBar + pager)
+
+- UI: `feature/theory/theory-screen-impl/.../compose/TheoryScreenContent.kt` (TopBar \+ pager)
 - Экран: `feature/theory/theory-screen-impl/.../TheoryScreen.kt`
 
 Призы (Rewards):
+
 - UI: `feature/rewards-screen/rewards-screen-impl/.../compose/RewardsScreenContent.kt`
 - Список/карточки: `RewardList.kt`, `RewardCard.kt`
 - Экран (моки): `feature/rewards-screen/rewards-screen-impl/.../RewardsScreen.kt`
@@ -94,16 +101,19 @@
 ## Моки данных
 
 - Ежедневные задания (показывается в BottomSheet с главного экрана):
+
   - Файл: `feature/main-screen/main-screen-impl/.../compose/MainScreenContent.kt`
   - Коллекция `dailyTasks`: список пар `"Название" to isDone`
   - Как заменить: перенесите в отдельный репозиторий/UseCase и подключите через Koin
 
 - Призы (экран “Награды”):
+
   - Файл: `feature/rewards-screen/rewards-screen-impl/.../RewardsScreen.kt`
   - Списки `wonRewards` и `availableRewards` — реалистичные позиции (мерч, промокоды, монеты, бейджи)
   - Как заменить: внедрите `RewardsRepository`, грузите данные из сети/локально, замените моки
 
 - Курс: структура секций/айтемов
+
   - Модель: `feature/course-screen/course-screen-impl/.../model/Item.kt` (id, title, isTest, isCompleted)
   - Переходы завязаны на `isTest`
 
@@ -118,16 +128,20 @@
 ## Сборка и запуск
 
 Предустановки:
+
 - JDK 21 (Gradle и Android compileOptions настроены на Java 21)
-- Android Studio Koala+ (для Android-проекта), Android SDK/эмулятор/устройство
-- Xcode 15+ (для iOS), CocoaPods при необходимости
+- Android Studio Koala\+ (для Android-проекта), Android SDK/эмулятор/устройство
+- Xcode 15\+ (для iOS), CocoaPods при необходимости
 
 Команды для Windows (cmd.exe):
+
 - Полная сборка (все модули):
+
   ```bat
   gradlew.bat clean build
   ```
 - Android APK сборка (debug) из общего модуля UI:
+
   ```bat
   gradlew.bat :composeApp:assembleDebug
   ```
@@ -135,7 +149,9 @@
 - iOS: открыть `iosApp/iosApp.xcodeproj` в Xcode и запустить на симулятор/устройстве
 
 Если столкнулись с ошибками синхронизации:
+
 - Очистить кеш Gradle и пересобрать:
+
   ```bat
   gradlew.bat clean --stop
   rmdir /s /q .gradle
@@ -145,12 +161,14 @@
 ## Архитектура MVI — как это связано
 
 Пример: клик “Игры” в Drawer главного экрана
+
 - View (`MainScreenContent`) вызывает `onCourseClick()`
 - View (`MainScreen.kt`) пушит `MainScreenAction.ClickButtonOnCourse`
 - Model (`MainScreenModel.actor`) эмитит `MainScreenEvent.NavigateToCourseScreen`
 - View ловит Event и делает `navigator.push(courseScreenApi.courseScreen())`
 
 Пример: клик по пункту курса
+
 - Если `item.isTest` → `CourseScreenAction.ClickOnQuiz(id)` → Event `NavigateToQuizScreen(id)` → `navigator.push(quizScreenApi.quizScreen(id))`
 - Иначе → `CourseScreenAction.ClickOnTheory(id)` → Event `NavigateToTheoryScreen` → `navigator.push(theoryScreenApi.theoryScreen())`
 
@@ -162,12 +180,14 @@
 ## Как добавить новую фичу (гайд)
 
 1) Создайте модули `feature/<name>-api` и `feature/<name>-impl`
+
 - `*-api`: интерфейс `<Name>ScreenApi { fun screen(...): Screen }`
 - `*-impl`: реализация экрана, MVI (Action/State/Effect/Event/Model), DI-модуль с `single<...Api> { ...Impl() }`
 
 2) Добавьте зависимости в нужные `build.gradle.kts` (`implementation(projects.feature.<name>.<name>Api)`)
 
 3) Внедрите навигацию
+
 - В месте-источнике перехода `koinInject<<Name>ScreenApi>()` и `navigator.push(api.screen(...))`
 
 4) Покройте UI базовыми тестами/превью (по возможности)
@@ -176,7 +196,7 @@
 
 - Цвета/градиенты: централизуйте через свой `Theme`/`AppColors` модуль
 - Состояния BottomSheet: выведите в MVI, если нужна реакция на внешние события
-- Источники данных: замените локальные моки на репозитории + datasource (network/db)
+- Источники данных: замените локальные моки на репозитории \+ datasource (network/db)
 
 ## Траблшутинг
 
@@ -185,5 +205,3 @@
 - Конфликты Gradle: убедитесь, что версии Compose/Voyager/Koin согласованы с `gradle/libs.versions.toml`
 
 ---
-
-Для уточнений и расширения документации добавляйте разделы: API-спецификация, схема данных, дизайн-гайд, чеклисты релиза. 
