@@ -5,4 +5,5 @@ import com.coding.mvi_general.MviAction
 internal sealed interface CourseScreenAction : MviAction {
     data object ClickButtonToBack : CourseScreenAction
     data class ClickOnQuiz(val quizId: Int) : CourseScreenAction
+    data class ClickOnTheory(val theoryId: Int) : CourseScreenAction
 }

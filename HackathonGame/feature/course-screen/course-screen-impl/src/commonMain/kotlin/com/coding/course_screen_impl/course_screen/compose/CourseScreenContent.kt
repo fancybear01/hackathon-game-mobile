@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.coding.course_screen_impl.course_screen.compose.components.BackgroundColor
 import com.coding.course_screen_impl.course_screen.compose.components.SectionGroup
 import com.coding.course_screen_impl.course_screen.compose.components.TopBar
 import com.coding.course_screen_impl.course_screen.model.Section
@@ -24,7 +23,8 @@ import com.coding.course_screen_impl.course_screen.model.Section
 fun CourseScreenContent(
     sections: List<Section>,
     onClickBack: () -> Unit,
-    onNavigateToQuiz: (Int) -> Unit
+    onNavigateToQuiz: (Int) -> Unit,
+    onNavigateToTheory: (Int) -> Unit
 ) {
     MaterialTheme {
         Scaffold(
@@ -52,12 +52,12 @@ fun CourseScreenContent(
                         onItemClick = { item ->
                             if (item.isTest) {
                                 onNavigateToQuiz(item.id)
+                            } else {
+                                onNavigateToTheory(item.id)
                             }
                         }
                     )
-                    Spacer(modifier = Modifier
-                        .height(16.dp)
-                    )
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }

@@ -29,6 +29,10 @@ internal class MainScreenModel(
             is MainScreenAction.ClickButtonOnDailyTasks -> {
                 push(MainScreenEffect.ShowDialogDailyTasks)
             }
+
+            is MainScreenAction.ClickMenuRewards -> {
+                push(MainScreenEvent.NavigateToRewardsScreen)
+            }
         }
     }
 

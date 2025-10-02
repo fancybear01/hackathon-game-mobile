@@ -15,9 +15,9 @@ internal class PetApiImpl(
         return Result.success(
             PetDto(
                 id = 1,
-                name = "Казик",
-                age = 777,
-                exp = 666
+                name = "Газпромик",
+                age = 77,
+                exp = 777
             )
         )
     }

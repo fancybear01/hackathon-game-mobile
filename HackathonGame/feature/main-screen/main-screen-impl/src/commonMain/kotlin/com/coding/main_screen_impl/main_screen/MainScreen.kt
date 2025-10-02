@@ -10,9 +10,7 @@ import com.coding.main_screen_impl.main_screen.mvi.MainScreenEvent
 import com.coding.main_screen_impl.main_screen.mvi.MainScreenState
 import com.coding.mvi_koin_voyager.MviView
 import com.coding.mvi_koin_voyager.collectEvent
-import com.coding.quiz_screen_api.QuizScreenApi
 import com.coding.rewards_screen_api.RewardsScreenApi
-import com.coding.theory_screen_api.TheoryScreenApi
 import kotlinx.coroutines.flow.Flow
 import org.koin.compose.koinInject
 
@@ -26,25 +24,23 @@ internal class MainScreen : MviView<MainScreenAction, MainScreenEvent, MainScree
     ) {
         val navigator = LocalNavigator.currentOrThrow
         val courseScreenApi = koinInject<CourseScreenApi>()
-        // delete it later
-        val quizScreenApi = koinInject<QuizScreenApi>()
         val rewardsScreenApi = koinInject<RewardsScreenApi>()
-        val theoryScreenApi = koinInject<TheoryScreenApi>()
 
         eventFlow.collectEvent { event ->
             when (event) {
                 MainScreenEvent.NavigateToCourseScreen -> {
-                    //navigator.push(courseScreenApi.courseScreen())
-                    //navigator.push(quizScreenApi.quizScreen())
-                    //navigator.push(rewardsScreenApi.rewardsScreen())
-                    navigator.push(theoryScreenApi.theoryScreen())
+                    navigator.push(courseScreenApi.courseScreen())
+                }
+                MainScreenEvent.NavigateToRewardsScreen -> {
+                    navigator.push(rewardsScreenApi.rewardsScreen())
                 }
             }
         }
 
         val petName = state.pet?.name ?: "Имя питомца"
+        val petAge = state.pet?.age ?: 0
         val petExp = state.pet?.exp ?: 0
-        val status = "Возраст: $petExp"
+        val status = "Возраст: $petAge"
         val progress = ((petExp % 100).toFloat()) / 100f
 
         MainScreenContent(
@@ -54,7 +50,10 @@ internal class MainScreen : MviView<MainScreenAction, MainScreenEvent, MainScree
             onCourseClick = {
                 pushAction(MainScreenAction.ClickButtonOnCourse)
             },
-            onPrizesClick = {}
+            onPrizesClick = {},
+            onRewardsClick = {
+                pushAction(MainScreenAction.ClickMenuRewards)
+            }
         )
     }
 }

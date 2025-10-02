@@ -1,6 +1,5 @@
 package com.coding.theory_screen_impl.theory_screen
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow

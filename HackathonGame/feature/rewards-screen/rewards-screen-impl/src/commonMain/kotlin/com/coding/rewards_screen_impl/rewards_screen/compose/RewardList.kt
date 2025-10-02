@@ -12,7 +12,7 @@ fun RewardList(rewards: List<Reward>, onRewardClick:(Reward) -> Unit) {
         modifier = Modifier.fillMaxSize()
     ) {
         items(rewards) { reward ->
-            RewardCard(reward = reward)
+            RewardCard(reward = reward, onRewardClick = onRewardClick)
         }
     }
 }

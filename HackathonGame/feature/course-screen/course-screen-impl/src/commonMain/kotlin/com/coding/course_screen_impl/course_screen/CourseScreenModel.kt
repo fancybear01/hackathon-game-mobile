@@ -20,6 +20,9 @@ internal class CourseScreenModel(
             is CourseScreenAction.ClickOnQuiz -> {
                 push(CourseScreenEvent.NavigateToQuizScreen(action.quizId))
             }
+            is CourseScreenAction.ClickOnTheory -> {
+                push(CourseScreenEvent.NavigateToTheoryScreen)
+            }
         }
     }
 }

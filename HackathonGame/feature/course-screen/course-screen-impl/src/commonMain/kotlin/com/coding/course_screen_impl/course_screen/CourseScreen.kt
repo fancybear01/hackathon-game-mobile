@@ -8,10 +8,10 @@ import com.coding.course_screen_impl.course_screen.model.sampleSections
 import com.coding.course_screen_impl.course_screen.mvi.CourseScreenAction
 import com.coding.course_screen_impl.course_screen.mvi.CourseScreenEvent
 import com.coding.course_screen_impl.course_screen.mvi.CourseScreenState
-import com.coding.main_screen_api.MainScreenApi
 import com.coding.mvi_koin_voyager.MviView
 import com.coding.mvi_koin_voyager.collectEvent
 import com.coding.quiz_screen_api.QuizScreenApi
+import com.coding.theory_screen_api.TheoryScreenApi
 import kotlinx.coroutines.flow.Flow
 import org.koin.compose.koinInject
 
@@ -24,8 +24,8 @@ internal class CourseScreen : MviView<CourseScreenAction, CourseScreenEvent, Cou
         pushAction: (CourseScreenAction) -> Unit
     ) {
         val navigator = LocalNavigator.currentOrThrow
-        val mainScreenApi = koinInject<MainScreenApi>()
         val quizScreenApi = koinInject<QuizScreenApi>()
+        val theoryScreenApi = koinInject<TheoryScreenApi>()
 
         eventFlow.collectEvent { event ->
             when(event) {
@@ -33,6 +33,8 @@ internal class CourseScreen : MviView<CourseScreenAction, CourseScreenEvent, Cou
                     navigator.pop()
                 is CourseScreenEvent.NavigateToQuizScreen ->
                     navigator.push(quizScreenApi.quizScreen(event.quizId))
+                CourseScreenEvent.NavigateToTheoryScreen ->
+                    navigator.push(theoryScreenApi.theoryScreen())
             }
         }
 
@@ -43,6 +45,9 @@ internal class CourseScreen : MviView<CourseScreenAction, CourseScreenEvent, Cou
             sections = sampleSections,
             onNavigateToQuiz = { quizId ->
                 pushAction(CourseScreenAction.ClickOnQuiz(quizId))
+            },
+            onNavigateToTheory = { theoryId ->
+                pushAction(CourseScreenAction.ClickOnTheory(theoryId))
             }
         )
     }
