@@ -70,6 +70,7 @@ fun MainScreenContent(
             DrawerMenu { item ->
                 menuVisible = false
                 when (item) {
+                    "Игры" -> onCourseClick()
                     "Награды" -> onRewardsClick()
                     "Ежедневные задания" -> showDailyTasksSheet = true
                     else -> Unit
