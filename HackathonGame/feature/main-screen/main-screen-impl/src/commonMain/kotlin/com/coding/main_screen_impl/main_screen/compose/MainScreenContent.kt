@@ -27,7 +27,8 @@ fun MainScreenContent(
     status: String,
     progress: Float = 0.6f, // прогресс (например 60%), будет приходить из БД
     onCourseClick: () -> Unit = {},
-    onPrizesClick: () -> Unit = {}
+    onPrizesClick: () -> Unit = {},
+    onRewardsClick: () -> Unit = {}
 ) {
     var menuVisible by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
@@ -54,9 +55,12 @@ fun MainScreenContent(
 
         // Drawer под TopAppBar
         AnimatedVisibility(visible = menuVisible) {
-            DrawerMenu { _ ->
+            DrawerMenu { item ->
                 menuVisible = false
-                // обработка клика
+                when (item) {
+                    "Награды" -> onRewardsClick()
+                    else -> Unit
+                }
             }
         }
 

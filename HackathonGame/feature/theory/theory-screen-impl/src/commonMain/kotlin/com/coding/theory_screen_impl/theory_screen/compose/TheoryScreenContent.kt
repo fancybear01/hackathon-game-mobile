@@ -4,18 +4,20 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,6 +30,7 @@ import ru.braveowlet.simple_mvi_example.core.resources.arrow_2
 import kotlin.math.abs
 import kotlin.math.max
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TheoryScreenContent(
     articles: List<TheoryArticle>,
@@ -35,112 +38,111 @@ fun TheoryScreenContent(
     onBackClick: () -> Unit = {},
 ) {
     val pagerState = rememberPagerState(initialPage = initialIndex, pageCount = { articles.size })
-    var isFirstAnimated by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        if (pagerState.currentPage == initialIndex) {
-            kotlinx.coroutines.delay(500)
-            isFirstAnimated = true
-        }
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Black)
-    ) {
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxSize()
-        ) { page ->
-            val article = articles[page]
-
+    MaterialTheme {
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = { Text("Теория", color = Color.White) },
+                    navigationIcon = {
+                        IconButton(onClick = onBackClick) {
+                            Icon(
+                                painter = painterResource(Res.drawable.arrow_2),
+                                contentDescription = "Back",
+                                tint = Color.White,
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent,
+                        navigationIconContentColor = Color.White,
+                        titleContentColor = Color.White
+                    )
+                )
+            }
+        ) { innerPadding ->
             Box(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+                    .padding(innerPadding)
             ) {
-                // Заглушка для картинки
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.DarkGray)
-                )
+                HorizontalPager(
+                    state = pagerState,
+                    modifier = Modifier.fillMaxSize()
+                ) { page ->
+                    val article = articles[page]
 
-                // Затемнённый фон
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.4f))
-                )
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 24.dp)
-                        .padding(bottom = 48.dp),
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-                    var isTitleVisible by remember { mutableStateOf(false) }
-                    var isContentVisible by remember { mutableStateOf(false) }
-
-                    LaunchedEffect(page) {
-                        isTitleVisible = true
-                        kotlinx.coroutines.delay(200)
-                        isContentVisible = true
-                    }
-
-                    AnimatedVisibility(
-                        visible = isTitleVisible,
-                        enter = fadeIn(animationSpec = tween(500))
+                    Box(
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(
-                            text = article.title,
-                            style = MaterialTheme.typography.headlineLarge,
-                            color = Color.White
+                        // Заглушка для картинки
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.DarkGray)
                         )
-                    }
 
-                    Spacer(Modifier.height(16.dp))
-
-                    AnimatedVisibility(
-                        visible = isContentVisible,
-                        enter = fadeIn(animationSpec = tween(500))
-                    ) {
-                        Text(
-                            text = article.content,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.White
+                        // Затемнённый фон
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.Black.copy(alpha = 0.4f))
                         )
+
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 24.dp)
+                                .padding(bottom = 48.dp),
+                            verticalArrangement = Arrangement.Bottom
+                        ) {
+                            var isTitleVisible by remember { mutableStateOf(false) }
+                            var isContentVisible by remember { mutableStateOf(false) }
+
+                            LaunchedEffect(page) {
+                                isTitleVisible = true
+                                kotlinx.coroutines.delay(200)
+                                isContentVisible = true
+                            }
+
+                            AnimatedVisibility(
+                                visible = isTitleVisible,
+                                enter = fadeIn(animationSpec = tween(500))
+                            ) {
+                                Text(
+                                    text = article.title,
+                                    style = MaterialTheme.typography.headlineLarge,
+                                    color = Color.White
+                                )
+                            }
+
+                            Spacer(Modifier.height(16.dp))
+
+                            AnimatedVisibility(
+                                visible = isContentVisible,
+                                enter = fadeIn(animationSpec = tween(500))
+                            ) {
+                                Text(
+                                    text = article.content,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = Color.White
+                                )
+                            }
+                        }
                     }
                 }
-            }
-        }
 
-        // Кнопка закрытия в правом верхнем углу
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            contentAlignment = Alignment.TopEnd
-        ) {
-            IconButton(onClick = onBackClick) {
-                Icon(
-                    painter = painterResource(Res.drawable.arrow_2),
-                    contentDescription = "Закрыть",
-                    tint = Color.White,
+                // Индикаторы страниц
+                AnimatedIndicatorRow(
                     modifier = Modifier
-                        .size(24.dp) // размер иконки
+                        .align(Alignment.BottomCenter)
+                        .padding(horizontal = 24.dp, vertical = 16.dp),
+                    pagerState = pagerState,
+                    pagesCount = articles.size
                 )
             }
         }
-
-        // Индикаторы страниц
-        AnimatedIndicatorRow(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(horizontal = 24.dp, vertical = 16.dp),
-            pagerState = pagerState,
-            pagesCount = articles.size
-        )
     }
 }
 
