@@ -10,8 +10,9 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -22,8 +23,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.border
+import androidx.compose.material3.ExperimentalMaterial3Api
 import org.jetbrains.compose.resources.painterResource
 import ru.braveowlet.simple_mvi_example.core.resources.Res
 import ru.braveowlet.simple_mvi_example.core.resources.arrow_2
@@ -64,7 +68,11 @@ fun TheoryScreenContent(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color.Black)
+                    .background(
+                        brush = Brush.linearGradient(
+                            colors = listOf(Color(0xFF1919EF), Color(0xFF8694E4))
+                        )
+                    )
                     .padding(innerPadding)
             ) {
                 HorizontalPager(
@@ -74,60 +82,52 @@ fun TheoryScreenContent(
                     val article = articles[page]
 
                     Box(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 24.dp, vertical = 24.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        // Заглушка для картинки
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color.DarkGray)
-                        )
+                        var isTitleVisible by remember { mutableStateOf(false) }
+                        var isContentVisible by remember { mutableStateOf(false) }
 
-                        // Затемнённый фон
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(Color.Black.copy(alpha = 0.4f))
-                        )
+                        LaunchedEffect(page) {
+                            isTitleVisible = true
+                            kotlinx.coroutines.delay(200)
+                            isContentVisible = true
+                        }
 
-                        Column(
+                        Card(
+                            shape = RoundedCornerShape(16.dp),
+                            colors = CardDefaults.cardColors(containerColor = Color(0xFFBDCEFA)),
                             modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 24.dp)
-                                .padding(bottom = 48.dp),
-                            verticalArrangement = Arrangement.Bottom
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(16.dp))
+                                .border(2.dp, Color(0xFFCFCFFF), RoundedCornerShape(16.dp))
                         ) {
-                            var isTitleVisible by remember { mutableStateOf(false) }
-                            var isContentVisible by remember { mutableStateOf(false) }
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                AnimatedVisibility(
+                                    visible = isTitleVisible,
+                                    enter = fadeIn(animationSpec = tween(500))
+                                ) {
+                                    Text(
+                                        text = article.title,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        color = Color(0xFF1919EF)
+                                    )
+                                }
 
-                            LaunchedEffect(page) {
-                                isTitleVisible = true
-                                kotlinx.coroutines.delay(200)
-                                isContentVisible = true
-                            }
+                                Spacer(Modifier.height(12.dp))
 
-                            AnimatedVisibility(
-                                visible = isTitleVisible,
-                                enter = fadeIn(animationSpec = tween(500))
-                            ) {
-                                Text(
-                                    text = article.title,
-                                    style = MaterialTheme.typography.headlineLarge,
-                                    color = Color.White
-                                )
-                            }
-
-                            Spacer(Modifier.height(16.dp))
-
-                            AnimatedVisibility(
-                                visible = isContentVisible,
-                                enter = fadeIn(animationSpec = tween(500))
-                            ) {
-                                Text(
-                                    text = article.content,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    color = Color.White
-                                )
+                                AnimatedVisibility(
+                                    visible = isContentVisible,
+                                    enter = fadeIn(animationSpec = tween(500))
+                                ) {
+                                    Text(
+                                        text = article.content,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = Color(0xFF111111)
+                                    )
+                                }
                             }
                         }
                     }
