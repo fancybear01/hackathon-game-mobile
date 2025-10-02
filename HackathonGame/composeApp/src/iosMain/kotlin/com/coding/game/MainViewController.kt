@@ -7,14 +7,14 @@ import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
 import com.coding.logger.Logger
 import com.coding.common.utils.ThreadUtils
-import com.coding.main_screen_api.MainScreenApi
+import com.coding.onboarding.onboarding_api.OnboardingApi
 
 @Suppress("unused", "FunctionName")
 fun MainViewController() = ComposeUIViewController {
-    val mainScreenFeatureApi = koinInject<MainScreenApi>()
+    val onboardingApi = koinInject<OnboardingApi>()
     MaterialTheme {
         Navigator(
-            mainScreenFeatureApi.mainScreen()
+            onboardingApi.onboardingScreen()
         )
     }
 }

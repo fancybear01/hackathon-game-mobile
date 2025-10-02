@@ -2,6 +2,7 @@ package com.coding.theory_screen_impl.theory_screen
 
 import com.coding.mvi_koin_voyager.MviModel
 import com.coding.theory_screen_impl.theory_screen.compose.TheoryArticle
+import com.coding.theory_screen_impl.theory_screen.compose.sampleArticles
 import com.coding.theory_screen_impl.theory_screen.mvi.TheoryAction
 import com.coding.theory_screen_impl.theory_screen.mvi.TheoryEffect
 import com.coding.theory_screen_impl.theory_screen.mvi.TheoryEvent
@@ -12,10 +13,7 @@ internal class TheoryScreenModel(
     tag: String,
 ) : MviModel<TheoryAction, TheoryEffect, TheoryEvent, TheoryState>(
     defaultState = TheoryState(
-        articles = listOf(
-            TheoryArticle("1", "Пример статьи 1", "Содержимое статьи 1"),
-            TheoryArticle("2", "Пример статьи 2", "Содержимое статьи 2")
-        )
+        articles = sampleArticles
     ),
     tag = tag
 ) {
