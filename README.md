@@ -18,21 +18,22 @@
 \- \`composeApp/\` — Android/iOS entry для общего UI (Android Activity, iOS bridge)
 \- \`iosApp/\` — iOS приложение (Xcode проект, SwiftUI обёртка, точка входа)
 \- \`common/\` — общие вспомогательные библиотеки
-  - \`logger/\` — логгер
-  - \`mvi/\` — реализация MVI (general \+ koin-voyager связка)
-  - \`utils/\` — утилиты (androidMain/commonMain/iosMain)
-\- \`core/\` — базовые подсистемы
-  - \`network/\` — сетевой слой (заготовки)
-  - \`recources/\` — общий модуль ресурсов (Compose resources)
-  - \`settings/\` — настройки/хранилище
-\- \`components/\` — переиспользуемые доменные компоненты
-  - \`pet/\`, \`quiz/\` — доменные фичи-компоненты
-\- \`feature/\` — функциональные экраны (паттерн api/impl)
-  - \`main-screen/\` — главный экран (api, impl)
-  - \`course-screen/\` — экран курса (api, impl)
-  - \`quiz-screen/\` — викторина (api, impl)
-  - \`theory/\` — теория (api, impl)
-  - \`rewards-screen/\` — призы (api, impl)
+
+- \`logger/\` — логгер
+- \`mvi/\` — реализация MVI (general \+ koin-voyager связка)
+- \`utils/\` — утилиты (androidMain/commonMain/iosMain)
+  \- \`core/\` — базовые подсистемы
+- \`network/\` — сетевой слой (заготовки)
+- \`recources/\` — общий модуль ресурсов (Compose resources)
+- \`settings/\` — настройки/хранилище
+  \- \`components/\` — переиспользуемые доменные компоненты
+- \`pet/\`, \`quiz/\` — доменные фичи-компоненты
+  \- \`feature/\` — функциональные экраны (паттерн api/impl)
+- \`main-screen/\` — главный экран (api, impl)
+- \`course-screen/\` — экран курса (api, impl)
+- \`quiz-screen/\` — викторина (api, impl)
+- \`theory/\` — теория (api, impl)
+- \`rewards-screen/\` — призы (api, impl)
 
 Примечание: каждый feature-модуль имеет \`-api\` (контракты/точка навигации) и \`-impl\` (UI, MVI, DI-модуль Koin).
 
@@ -42,29 +43,31 @@
 \- Koin (koin-core, koin-compose) — DI контейнер, регистрация api/impl
 \- Voyager — навигация между экранами через \`Screen\`/\`Navigator\`
 \- MVI — собственные модули \`mvi\_general\`, \`mvi\_koin\_voyager\`:
-  - Action: пользовательские интенты
-  - Effect: изменения состояния
-  - Event: одноразовые события (навигация, тосты)
-  - State: модель UI
-  - Model (MviModel): обрабатывает Action → пушит Effect/Event
+
+- Action: пользовательские интенты
+- Effect: изменения состояния
+- Event: одноразовые события (навигация, тосты)
+- State: модель UI
+- Model (MviModel): обрабатывает Action → пушит Effect/Event
 
 \## Навигационные сценарии (как сейчас настроено)
 
 \- Главный экран
-  - Кнопка меню в TopBar открывает Drawer с пунктами: “Игры”, “Награды”, “Ежедневные задания”
-  - Нажатие “Игры” → переход к экрану курса
-  - Нажатие “Награды” → переход к экрану призов
-  - Нажатие “Ежедневные задания” → всплывающее окно (ModalBottomSheet) со списком мок-заданий
-  - Кнопка “ИЗУЧАТЬ” → переход к экрану курса
-\- Экран курса
-  - Нажатие на item с \`isTest = true\` → переход к экрану квиза (с передачей id теста)
-  - Нажатие на item с \`isTest = false\` → переход к экрану теории
-\- Экран квиза
-  - CenterAlignedTopAppBar со стрелкой “назад”, фон — вертикальный градиент, карточки вопросов/ответов
-\- Экран теории
-  - Приведён к стилю квиза: CenterAlignedTopAppBar со стрелкой, затемнённый фон, pager со статьями
-\- Экран призов
-  - Приведён к общему стилю: градиентный фон, TopAppBar со стрелкой, чип-переключатель “Полученные/Можно выиграть”, карточки призов
+
+- Кнопка меню в TopBar открывает Drawer с пунктами: “Игры”, “Награды”, “Ежедневные задания”
+- Нажатие “Игры” → переход к экрану курса
+- Нажатие “Награды” → переход к экрану призов
+- Нажатие “Ежедневные задания” → всплывающее окно (ModalBottomSheet) со списком мок-заданий
+- Кнопка “ИЗУЧАТЬ” → переход к экрану курса
+  \- Экран курса
+- Нажатие на item с \`isTest = true\` → переход к экрану квиза (с передачей id теста)
+- Нажатие на item с \`isTest = false\` → переход к экрану теории
+  \- Экран квиза
+- CenterAlignedTopAppBar со стрелкой “назад”, фон — вертикальный градиент, карточки вопросов/ответов
+  \- Экран теории
+- Приведён к стилю квиза: CenterAlignedTopAppBar со стрелкой, затемнённый фон, pager со статьями
+  \- Экран призов
+- Приведён к общему стилю: градиентный фон, TopAppBar со стрелкой, чип-переключатель “Полученные/Можно выиграть”, карточки призов
 
 \## Где искать ключевой код (ссылки по путям)
 
@@ -94,18 +97,21 @@
 \## Моки данных
 
 \- Ежедневные задания (показывается в BottomSheet с главного экрана):
-  - Файл: \`feature/main-screen/main-screen-impl/.../compose/MainScreenContent.kt\`
-  - Коллекция \`dailyTasks\`: список пар \`"Название" to isDone\`
-  - Как заменить: перенесите в отдельный репозиторий/UseCase и подключите через Koin
+
+- Файл: \`feature/main-screen/main-screen-impl/.../compose/MainScreenContent.kt\`
+- Коллекция \`dailyTasks\`: список пар \`"Название" to isDone\`
+- Как заменить: перенесите в отдельный репозиторий/UseCase и подключите через Koin
 
 \- Призы (экран “Награды”):
-  - Файл: \`feature/rewards-screen/rewards-screen-impl/.../RewardsScreen.kt\`
-  - Списки \`wonRewards\` и \`availableRewards\` — реалистичные позиции (мерч, промокоды, монеты, бейджи)
-  - Как заменить: внедрите \`RewardsRepository\`, грузите данные из сети/локально, замените моки
+
+- Файл: \`feature/rewards-screen/rewards-screen-impl/.../RewardsScreen.kt\`
+- Списки \`wonRewards\` и \`availableRewards\` — реалистичные позиции (мерч, промокоды, монеты, бейджи)
+- Как заменить: внедрите \`RewardsRepository\`, грузите данные из сети/локально, замените моки
 
 \- Курс: структура секций/айтемов
-  - Модель: \`feature/course-screen/course-screen-impl/.../model/Item.kt\` (id, title, isTest, isCompleted)
-  - Переходы завязаны на \`isTest\`
+
+- Модель: \`feature/course-screen/course-screen-impl/.../model/Item.kt\` (id, title, isTest, isCompleted)
+- Переходы завязаны на \`isTest\`
 
 \## Стайлгайд UI (фрагменты)
 
@@ -124,23 +130,23 @@
 
 Команды для Windows (cmd.exe):
 \- Полная сборка (все модули):
-  \`\`\`bat
-  gradlew.bat clean build
-  \`\`\`
+\`\`\`bat
+gradlew.bat clean build
+\`\`\`
 \- Android APK сборка (debug) из общего модуля UI:
-  \`\`\`bat
-  gradlew.bat :composeApp:assembleDebug
-  \`\`\`
+\`\`\`bat
+gradlew.bat :composeApp:assembleDebug
+\`\`\`
 \- Рекомендованный запуск: через Android Studio (Run на модуле composeApp)
 \- iOS: открыть \`iosApp/iosApp.xcodeproj\` в Xcode и запустить на симулятор/устройстве
 
 Если столкнулись с ошибками синхронизации:
 \- Очистить кеш Gradle и пересобрать:
-  \`\`\`bat
-  gradlew.bat clean --stop
-  rmdir /s /q .gradle
-  gradlew.bat build
-  \`\`\`
+\`\`\`bat
+gradlew.bat clean --stop
+rmdir /s /q .gradle
+gradlew.bat build
+\`\`\`
 
 \## Архитектура MVI — как это связано
 
@@ -162,13 +168,13 @@
 \## Как добавить новую фичу (гайд)
 
 1) Создайте модули \`feature/\<name\>-api\` и \`feature/\<name\>-impl\`
-\- \`\*-api\`: интерфейс \`\<Name\>ScreenApi \{ fun screen(...): Screen \}\`
-\- \`\*-impl\`: реализация экрана, MVI (Action/State/Effect/Event/Model), DI-модуль с \`single\<...Api\> \{ ...Impl() \}\`
+   \- \`\*-api\`: интерфейс \`\<Name\>ScreenApi \{ fun screen(...): Screen \}\`
+   \- \`\*-impl\`: реализация экрана, MVI (Action/State/Effect/Event/Model), DI-модуль с \`single\<...Api\> \{ ...Impl() \}\`
 
 2) Добавьте зависимости в нужные \`build.gradle.kts\` (\`implementation(projects.feature.\<name\>.\<name\>Api)\`)
 
 3) Внедрите навигацию
-\- В месте-источнике перехода \`koinInject\<\<Name\>ScreenApi\>()\` и \`navigator.push(api.screen(...))\`
+   \- В месте-источнике перехода \`koinInject\<\<Name\>ScreenApi\>()\` и \`navigator.push(api.screen(...))\`
 
 4) Покройте UI базовыми тестами/превью (по возможности)
 
@@ -185,5 +191,3 @@
 \- Конфликты Gradle: убедитесь, что версии Compose/Voyager/Koin согласованы с \`gradle/libs.versions.toml\`
 
 \---
-
-Для уточнений и расширения документации добавляйте разделы: API-спецификация, схема данных, дизайн-гайд, чеклисты релиза. 
