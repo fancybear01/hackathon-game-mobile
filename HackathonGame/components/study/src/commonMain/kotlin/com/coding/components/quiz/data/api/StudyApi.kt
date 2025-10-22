@@ -1,11 +1,16 @@
 package com.coding.components.quiz.data.api
 
 import com.coding.components.quiz.data.dto.QuestionDto
+import com.coding.components.quiz.data.dto.SectionDto
+import com.coding.core.network.fetchForGet
 import io.ktor.client.HttpClient
 
 internal interface StudyApi {
     suspend fun getQuestions(): Result<List<QuestionDto>>
+    suspend fun getSections(): Result<List<SectionDto>>
 }
+
+val BASE_URL = "http://158.160.205.249:8080"
 
 internal class StudyApiImpl(
     private val httpClient: HttpClient
@@ -42,4 +47,8 @@ internal class StudyApiImpl(
                 )
             )
         )
+
+    override suspend fun getSections(): Result<List<SectionDto>> {
+        return httpClient.fetchForGet("$BASE_URL/sections")
+    }
 }

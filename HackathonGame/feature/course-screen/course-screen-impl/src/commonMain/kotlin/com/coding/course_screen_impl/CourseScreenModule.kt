@@ -8,6 +8,6 @@ import org.koin.dsl.module
 
 val courseScreenModule
     get() = module {
-        provideMviModel<CourseScreen> { tag, _ -> CourseScreenModel(tag) }
+        provideMviModel<CourseScreen> { tag, _ -> CourseScreenModel(tag, getSections = get()) }
         single<CourseScreenApi> { CourseScreenImpl() }
     }

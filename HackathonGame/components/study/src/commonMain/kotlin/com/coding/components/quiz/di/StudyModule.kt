@@ -6,6 +6,8 @@ import com.coding.components.quiz.data.repository.StudyRepositoryImpl
 import com.coding.components.quiz.domain.repostory.StudyRepository
 import com.coding.components.quiz.domain.usecase.GetQuestionsUseCase
 import com.coding.components.quiz.domain.usecase.GetQuestionsUseCaseImpl
+import com.coding.components.quiz.domain.usecase.GetSectionsUseCase
+import com.coding.components.quiz.domain.usecase.GetSectionsUseCaseImpl
 import org.koin.dsl.module
 
 val quizModule
@@ -13,4 +15,5 @@ val quizModule
         single<StudyApi> { StudyApiImpl(get()) }
         single<StudyRepository> { StudyRepositoryImpl(get()) }
         single<GetQuestionsUseCase> { GetQuestionsUseCaseImpl(get()) }
+        single<GetSectionsUseCase> { GetSectionsUseCaseImpl(get()) }
     }

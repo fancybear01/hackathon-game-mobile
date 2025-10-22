@@ -1,7 +1,7 @@
 package com.coding.course_screen_impl.course_screen.model
 
-data class Section(
+data class SectionUi(
     val title: String,
-    val items: List<Item>,
+    val items: List<ItemUi>,
     val status: SectionStatus
 )

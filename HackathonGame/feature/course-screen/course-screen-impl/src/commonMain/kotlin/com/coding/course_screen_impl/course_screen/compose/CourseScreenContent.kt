@@ -17,11 +17,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.coding.course_screen_impl.course_screen.compose.components.SectionGroup
 import com.coding.course_screen_impl.course_screen.compose.components.TopBar
-import com.coding.course_screen_impl.course_screen.model.Section
+import com.coding.course_screen_impl.course_screen.model.SectionUi
 
 @Composable
 fun CourseScreenContent(
-    sections: List<Section>,
+    sections: List<SectionUi>,
     onClickBack: () -> Unit,
     onNavigateToQuiz: (Int) -> Unit,
     onNavigateToTheory: (Int) -> Unit

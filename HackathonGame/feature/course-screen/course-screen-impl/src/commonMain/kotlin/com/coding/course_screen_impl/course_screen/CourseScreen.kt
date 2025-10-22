@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.coding.course_screen_impl.course_screen.compose.CourseScreenContent
-import com.coding.course_screen_impl.course_screen.model.sampleSections
+import com.coding.course_screen_impl.course_screen.model.toUi
 import com.coding.course_screen_impl.course_screen.mvi.CourseScreenAction
 import com.coding.course_screen_impl.course_screen.mvi.CourseScreenEvent
 import com.coding.course_screen_impl.course_screen.mvi.CourseScreenState
@@ -42,7 +42,7 @@ internal class CourseScreen : MviView<CourseScreenAction, CourseScreenEvent, Cou
             onClickBack = {
                 pushAction(CourseScreenAction.ClickButtonToBack)
             },
-            sections = sampleSections,
+            sections = state.sections.map { it.toUi() },
             onNavigateToQuiz = { quizId ->
                 pushAction(CourseScreenAction.ClickOnQuiz(quizId))
             },
