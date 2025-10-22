@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -49,7 +48,7 @@ kotlin {
             implementation(projects.feature.theory.theoryScreenApi)
             implementation(projects.feature.theory.theoryScreenImpl)
             implementation(projects.components.pet)
-            implementation(projects.components.quiz)
+            implementation(projects.components.study)
 
             implementation(compose.runtime)
             implementation(compose.foundation)

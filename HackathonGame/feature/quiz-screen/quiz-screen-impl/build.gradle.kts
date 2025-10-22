@@ -22,7 +22,7 @@ kotlin {
             implementation(projects.common.mvi.mviKoinVoyager)
             implementation(projects.core.recources)
             implementation(projects.feature.quizScreen.quizScreenApi)
-            implementation(projects.components.quiz)
+            implementation(projects.components.study)
 
             implementation(libs.kotlinx.coroutines.core)
 

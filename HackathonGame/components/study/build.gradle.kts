@@ -25,7 +25,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.coding.components.quiz"
+    namespace = "com.coding.components.study"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig { minSdk = libs.versions.android.minSdk.get().toInt() }
     compileOptions {

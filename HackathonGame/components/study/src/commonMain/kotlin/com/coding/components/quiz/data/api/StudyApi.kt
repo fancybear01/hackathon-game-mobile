@@ -1,16 +1,15 @@
 package com.coding.components.quiz.data.api
 
 import com.coding.components.quiz.data.dto.QuestionDto
-import com.coding.core.network.fetchForGet
 import io.ktor.client.HttpClient
 
-internal interface QuizApi {
+internal interface StudyApi {
     suspend fun getQuestions(): Result<List<QuestionDto>>
 }
 
-internal class QuizApiImpl(
+internal class StudyApiImpl(
     private val httpClient: HttpClient
-) : QuizApi {
+) : StudyApi {
 
     override suspend fun getQuestions(): Result<List<QuestionDto>> =
         // httpClient.fetchForGet("https://example.com/api/quiz")
