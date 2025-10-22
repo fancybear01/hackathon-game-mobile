@@ -7,6 +7,8 @@ import com.coding.main_screen_impl.main_screen.mvi.MainScreenEvent
 import com.coding.main_screen_impl.main_screen.mvi.MainScreenState
 import com.coding.mvi_koin_voyager.MviModel
 
+val userid = 1
+
 internal class MainScreenModel(
     tag: String,
     private val getPet: GetPetUseCase
@@ -15,7 +17,9 @@ internal class MainScreenModel(
     tag = tag,
 ) {
     override suspend fun bootstrap() {
-        getPet()
+        getPet(
+            id = userid
+        )
             .onSuccess { pet -> push(MainScreenEffect.SetPet(pet)) }
             .onFailure { /* TODO: обработать ошибку */ }
     }

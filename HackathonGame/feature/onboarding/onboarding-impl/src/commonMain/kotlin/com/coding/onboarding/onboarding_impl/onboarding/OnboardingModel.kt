@@ -1,5 +1,6 @@
 package com.coding.onboarding.onboarding_impl.onboarding
 
+import com.coding.components.pet.domain.usecase.SetNameUseCase
 import com.coding.core.settings.SettingsRepository
 import com.coding.mvi_koin_voyager.MviModel
 import com.coding.onboarding.onboarding_impl.onboarding.mvi.OnboardingAction
@@ -9,6 +10,7 @@ import com.coding.onboarding.onboarding_impl.onboarding.mvi.OnboardingState
 
 internal class OnboardingModel(
     tag: String,
+    private val setName: SetNameUseCase,
     private val settingsRepository: SettingsRepository
 ) : MviModel<OnboardingAction, OnboardingEffect, OnboardingEvent, OnboardingState>(
     defaultState = OnboardingState,
@@ -18,7 +20,10 @@ internal class OnboardingModel(
         when (action) {
             is OnboardingAction.ClickButtonToMainScreen -> {
                 settingsRepository.setOnboardingCompleted(completed = true)
-                // saveName(action.name)
+                setName(
+                    name = action.name,
+                    userID = 1
+                )
                 push(OnboardingEvent.NavigateToMainScreen)
             }
         }
