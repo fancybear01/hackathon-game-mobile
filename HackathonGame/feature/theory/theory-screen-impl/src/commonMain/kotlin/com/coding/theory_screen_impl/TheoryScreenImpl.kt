@@ -5,5 +5,5 @@ import com.coding.theory_screen_api.TheoryScreenApi
 import com.coding.theory_screen_impl.theory_screen.TheoryScreen
 
 internal class TheoryScreenImpl: TheoryScreenApi {
-    override fun theoryScreen(): Screen = TheoryScreen()
+    override fun theoryScreen(id: Int): Screen = TheoryScreen()
 }

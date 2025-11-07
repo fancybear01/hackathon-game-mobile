@@ -2,6 +2,7 @@ package com.coding.components.quiz.data.api
 
 import com.coding.components.quiz.data.dto.QuestionDto
 import com.coding.components.quiz.data.dto.SectionDto
+import com.coding.core.network.Constants
 import com.coding.core.network.fetchForGet
 import io.ktor.client.HttpClient
 
@@ -10,7 +11,8 @@ internal interface StudyApi {
     suspend fun getSections(): Result<List<SectionDto>>
 }
 
-val BASE_URL = "http://158.160.205.249:8080"
+val BASE_URL = Constants.BASE_URL
+val USER_ID = Constants.USER_ID
 
 internal class StudyApiImpl(
     private val httpClient: HttpClient
@@ -49,6 +51,6 @@ internal class StudyApiImpl(
         )
 
     override suspend fun getSections(): Result<List<SectionDto>> {
-        return httpClient.fetchForGet("$BASE_URL/sections")
+        return httpClient.fetchForGet("$BASE_URL/sectionsStatuses?user_id=$USER_ID")
     }
 }

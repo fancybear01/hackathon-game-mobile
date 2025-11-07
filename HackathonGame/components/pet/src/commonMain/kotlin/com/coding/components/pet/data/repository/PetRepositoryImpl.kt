@@ -11,8 +11,8 @@ internal class PetRepositoryImpl(
     private val petApi: PetApi,
 ) : PetRepository {
 
-    override suspend fun getPet(id: Int): Result<Pet> = petApi
-        .getPet(id = id)
+    override suspend fun getPet(): Result<Pet> = petApi
+        .getPet()
         .map ( PetDto::toDomain )
 
     override suspend fun setPetName(name: String, userID: Int) {

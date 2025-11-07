@@ -16,8 +16,14 @@ internal class CourseScreenModel(
 ) {
     override suspend fun bootstrap() {
         getSections()
-            .onSuccess { list -> push(CourseScreenEffect.GetSections(list)) }
-            .onFailure { /* TODO: обработать ошибку */ }
+            .onSuccess { list ->
+                println("getSections: $list")
+                push(CourseScreenEffect.GetSections(list))
+            }
+            .onFailure {
+                println("getSections: $it")
+                /* TODO: обработать ошибку */
+            }
     }
     override suspend fun actor(action: CourseScreenAction) {
         when (action) {
@@ -28,7 +34,7 @@ internal class CourseScreenModel(
                 push(CourseScreenEvent.NavigateToQuizScreen(action.quizId))
             }
             is CourseScreenAction.ClickOnTheory -> {
-                push(CourseScreenEvent.NavigateToTheoryScreen)
+                push(CourseScreenEvent.NavigateToTheoryScreen(theoryId = action.theoryId))
             }
         }
     }

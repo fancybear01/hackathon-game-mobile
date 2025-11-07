@@ -4,8 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ItemDto(
-    val isTest: Boolean,
-    val itemID: Int,
-    val sectionID: Int,
+    val is_completed: Boolean,
+    val is_test: Boolean,
+    val item_id: Int,
+    val section_id: Int,
     val title: String
 )

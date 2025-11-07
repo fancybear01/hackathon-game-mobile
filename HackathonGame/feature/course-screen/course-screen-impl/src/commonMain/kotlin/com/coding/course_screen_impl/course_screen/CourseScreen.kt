@@ -33,8 +33,8 @@ internal class CourseScreen : MviView<CourseScreenAction, CourseScreenEvent, Cou
                     navigator.pop()
                 is CourseScreenEvent.NavigateToQuizScreen ->
                     navigator.push(quizScreenApi.quizScreen(event.quizId))
-                CourseScreenEvent.NavigateToTheoryScreen ->
-                    navigator.push(theoryScreenApi.theoryScreen())
+                is CourseScreenEvent.NavigateToTheoryScreen ->
+                    navigator.push(theoryScreenApi.theoryScreen(event.theoryId))
             }
         }
 
@@ -42,7 +42,7 @@ internal class CourseScreen : MviView<CourseScreenAction, CourseScreenEvent, Cou
             onClickBack = {
                 pushAction(CourseScreenAction.ClickButtonToBack)
             },
-            sections = state.sections.map { it.toUi() },
+            sections = state.sections,
             onNavigateToQuiz = { quizId ->
                 pushAction(CourseScreenAction.ClickOnQuiz(quizId))
             },
