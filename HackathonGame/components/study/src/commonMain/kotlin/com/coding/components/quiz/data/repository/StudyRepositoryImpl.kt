@@ -6,6 +6,7 @@ import com.coding.components.quiz.data.dto.SectionDto
 import com.coding.components.quiz.data.mapper.toDomain
 import com.coding.components.quiz.domain.model.Question
 import com.coding.components.quiz.domain.model.Section
+import com.coding.components.quiz.domain.model.Theory
 import com.coding.components.quiz.domain.repostory.StudyRepository
 
 internal class StudyRepositoryImpl(
@@ -19,4 +20,8 @@ internal class StudyRepositoryImpl(
     override suspend fun getSections(): Result<List<Section>> = studyApi
         .getSections()
         .map { sections -> sections.map(SectionDto::toDomain) }
+
+    override suspend fun getTheory(id: Int): Result<Theory> = studyApi
+        .getTheory(id = id)
+        .map { it.toDomain() }
 }

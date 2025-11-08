@@ -7,8 +7,9 @@ import com.coding.theory_screen_impl.theory_screen.TheoryScreenModel
 import org.koin.dsl.module
 
 val theoryScreenModule = module {
-    provideMviModel<TheoryScreen> { tag, _ ->
-        TheoryScreenModel(tag)
+    provideMviModel<TheoryScreen> { tag, params ->
+        val theoryId: Int? = params.getOrNull()
+        TheoryScreenModel(tag, getTheory = get(), theoryId = theoryId)
     }
 
     single<TheoryScreenApi> { TheoryScreenImpl() }

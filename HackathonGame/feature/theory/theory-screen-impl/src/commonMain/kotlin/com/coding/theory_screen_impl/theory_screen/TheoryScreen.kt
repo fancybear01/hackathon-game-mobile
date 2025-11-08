@@ -9,13 +9,18 @@ import com.coding.theory_screen_impl.theory_screen.compose.TheoryScreenContent
 import com.coding.theory_screen_impl.theory_screen.mvi.TheoryAction
 import com.coding.theory_screen_impl.theory_screen.mvi.TheoryEvent
 import com.coding.theory_screen_impl.theory_screen.mvi.TheoryState
+import kotlinx.coroutines.flow.Flow
 
-internal class TheoryScreen : MviView<TheoryAction, TheoryEvent, TheoryState> {
+internal class TheoryScreen(
+    private val theoryId: Int,
+) : MviView<TheoryAction, TheoryEvent, TheoryState>, MviView.ParamsProvider {
+
+    override fun modelParams(): Array<Any> = arrayOf(theoryId)
 
     @Composable
     override fun content(
         state: TheoryState,
-        eventFlow: kotlinx.coroutines.flow.Flow<TheoryEvent>,
+        eventFlow: Flow<TheoryEvent>,
         pushAction: (TheoryAction) -> Unit
     ) {
         val navigator = LocalNavigator.currentOrThrow
