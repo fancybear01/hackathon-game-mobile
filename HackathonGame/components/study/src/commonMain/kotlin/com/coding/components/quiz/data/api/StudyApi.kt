@@ -8,7 +8,7 @@ import com.coding.core.network.fetchForGet
 import io.ktor.client.HttpClient
 
 internal interface StudyApi {
-    suspend fun getQuestions(): Result<List<QuestionDto>>
+    suspend fun getQuestions(id: Int): Result<List<QuestionDto>>
     suspend fun getSections(): Result<List<SectionDto>>
     suspend fun getTheory(id: Int): Result<TheoryDto>
 }
@@ -20,37 +20,10 @@ internal class StudyApiImpl(
     private val httpClient: HttpClient
 ) : StudyApi {
 
-    override suspend fun getQuestions(): Result<List<QuestionDto>> =
-        // httpClient.fetchForGet("https://example.com/api/quiz")
-        Result.success(
-            listOf(
-                QuestionDto(
-                    question = "Что такое Kotlin Multiplatform?",
-                    variants = listOf(
-                        "Фреймворк UI для Android",
-                        "Язык для серверной разработки",
-                        "Технология для шаринга кода между платформами",
-                        "IDE от JetBrains"
-                    ),
-                    answer = "Технология для шаринга кода между платформами"
-                ),
-                QuestionDto(
-                    question = "Какой клиент используется здесь для сети?",
-                    variants = listOf("Retrofit", "Volley", "Ktor", "OkHttp только"),
-                    answer = "Ktor"
-                ),
-                QuestionDto(
-                    question = "Как обновляется состояние в MVI-модели?",
-                    variants = listOf(
-                        "Напрямую менять поля state",
-                        "Через эффекты и редьюсер",
-                        "Через глобальные переменные",
-                        "Через BroadcastReceiver"
-                    ),
-                    answer = "Через эффекты и редьюсер"
-                )
-            )
-        )
+    override suspend fun getQuestions(id: Int): Result<List<QuestionDto>> {
+        return httpClient.fetchForGet("$BASE_URL/quiz/$id")
+    }
+
 
     override suspend fun getSections(): Result<List<SectionDto>> {
         return httpClient.fetchForGet("$BASE_URL/sectionsStatuses?user_id=$USER_ID")

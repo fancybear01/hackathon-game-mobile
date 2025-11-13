@@ -13,8 +13,8 @@ internal class StudyRepositoryImpl(
     private val studyApi: StudyApi,
 ) : StudyRepository {
 
-    override suspend fun getQuestions(): Result<List<Question>> = studyApi
-        .getQuestions()
+    override suspend fun getQuestions(id: Int): Result<List<Question>> = studyApi
+        .getQuestions(id)
         .map { list -> list.map(QuestionDto::toDomain) }
 
     override suspend fun getSections(): Result<List<Section>> = studyApi

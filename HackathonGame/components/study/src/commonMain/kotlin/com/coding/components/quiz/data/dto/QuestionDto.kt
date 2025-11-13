@@ -4,7 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class QuestionDto(
-    val question: String,
-    val variants: List<String>,
-    val answer: String
+    val id: Int,
+    val title: String,
+    val content: String,
+    val options: List<String>,
+    val correctAnswer: String
 )

@@ -11,7 +11,10 @@ import com.coding.quiz_screen_impl.quiz_screen.mvi.QuizScreenEvent
 import com.coding.quiz_screen_impl.quiz_screen.mvi.QuizScreenState
 import kotlinx.coroutines.flow.Flow
 
-internal class QuizScreen : MviView<QuizScreenAction, QuizScreenEvent, QuizScreenState> {
+internal class QuizScreen(
+    private val quizId: Int
+) : MviView<QuizScreenAction, QuizScreenEvent, QuizScreenState>, MviView.ParamsProvider {
+    override fun modelParams(): Array<Any> = arrayOf(quizId)
 
     @Composable
     override fun content(

@@ -160,7 +160,7 @@ private fun QuizStep(
                         .border(1.dp, Color(0xFFCFCFFF), RoundedCornerShape(16.dp))
                 ) {
                     Text(
-                        text = current.question,
+                        text = current.content,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = Color(0xFF1919EF),
@@ -174,7 +174,7 @@ private fun QuizStep(
                 Spacer(Modifier.height(16.dp))
 
                 // Варианты ответов
-                current.variants.forEachIndexed { index, variant ->
+                current.options.forEachIndexed { index, variant ->
                     val selected = state.selectedIndex == index
                     val buttonBorderColor =
                         if (selected) Color.White else Color(0xFFCFCFFF)
@@ -201,7 +201,7 @@ private fun QuizStep(
                             fontWeight = FontWeight.Medium
                         )
                     }
-                    if (index < current.variants.lastIndex) {
+                    if (index < current.options.lastIndex) {
                         Spacer(Modifier.height(12.dp))
                     }
                 }
