@@ -36,3 +36,7 @@ jobs:
       - name: Run unit tests
         run: ./gradlew test
         working-directory: HackathonGame
+
+      - name: Static analysis (Detekt)
+        run: ./gradlew detekt
+        working-directory: HackathonGame
