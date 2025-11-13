@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.coding.course_screen_impl.course_screen.model.Item
+import com.coding.components.quiz.domain.model.Item
 
 @Composable
 fun SectionItem(

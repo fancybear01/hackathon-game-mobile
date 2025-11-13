@@ -5,5 +5,5 @@ import com.coding.quiz_screen_api.QuizScreenApi
 import com.coding.quiz_screen_impl.quiz_screen.QuizScreen
 
 internal class QuizScreenImpl : QuizScreenApi {
-    override fun quizScreen(id: Int): Screen = QuizScreen()
+    override fun quizScreen(id: Int): Screen = QuizScreen(id)
 }

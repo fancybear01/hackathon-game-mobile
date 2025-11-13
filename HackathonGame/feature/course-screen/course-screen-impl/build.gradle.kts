@@ -25,6 +25,7 @@ kotlin {
             implementation(projects.feature.courseScreen.courseScreenApi)
             implementation(projects.feature.quizScreen.quizScreenApi)
             implementation(projects.feature.theory.theoryScreenApi)
+            implementation(projects.components.study)
 
             implementation(libs.kotlinx.coroutines.core)
 

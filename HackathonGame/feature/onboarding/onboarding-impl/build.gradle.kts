@@ -24,6 +24,7 @@ kotlin {
             implementation(projects.core.settings)
             implementation(projects.feature.onboarding.onboardingApi)
             implementation(projects.feature.mainScreen.mainScreenApi)
+            implementation(projects.components.pet)
             implementation(libs.kotlinx.coroutines.core)
 
             implementation(libs.koin.core)

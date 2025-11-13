@@ -1,24 +1,34 @@
 package com.coding.components.pet.data.api
 
 import com.coding.components.pet.data.dto.PetDto
+import com.coding.components.pet.data.dto.SetNameDto
+import com.coding.core.network.fetchForGet
+import com.coding.core.network.Constants
 import io.ktor.client.HttpClient
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 
 internal interface PetApi {
     suspend fun getPet(): Result<PetDto>
+    suspend fun setPetName(request: SetNameDto)
 }
+
+val BASE_URL = Constants.BASE_URL
+val USER_ID = Constants.USER_ID
 
 internal class PetApiImpl(
     private val httpClient: HttpClient
 ) : PetApi {
     override suspend fun getPet(): Result<PetDto> {
-        // httpClient.fetchForGet("https://example.com/api/pet")
-        return Result.success(
-            PetDto(
-                id = 1,
-                name = "Газпромик",
-                age = 77,
-                exp = 777
-            )
-        )
+        return httpClient.fetchForGet("$BASE_URL/pet/$USER_ID")
+    }
+
+    override suspend fun setPetName(request: SetNameDto) {
+        httpClient.post("$BASE_URL/pet/name") {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }
     }
 }

@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.coding.components.quiz.domain.model.Section
 import com.coding.course_screen_impl.course_screen.compose.components.SectionGroup
 import com.coding.course_screen_impl.course_screen.compose.components.TopBar
-import com.coding.course_screen_impl.course_screen.model.Section
 
 @Composable
 fun CourseScreenContent(
@@ -51,9 +51,9 @@ fun CourseScreenContent(
                         section = section,
                         onItemClick = { item ->
                             if (item.isTest) {
-                                onNavigateToQuiz(item.id)
+                                onNavigateToQuiz(item.itemID)
                             } else {
-                                onNavigateToTheory(item.id)
+                                onNavigateToTheory(item.itemID)
                             }
                         }
                     )

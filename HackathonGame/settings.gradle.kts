@@ -58,4 +58,4 @@ include(":core:settings")
 
 // COMPONENTS
 include(":components:pet")
-include(":components:quiz")
+include(":components:study")

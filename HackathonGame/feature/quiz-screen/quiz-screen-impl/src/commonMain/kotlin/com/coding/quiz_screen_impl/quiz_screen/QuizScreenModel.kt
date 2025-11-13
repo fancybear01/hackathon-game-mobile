@@ -10,15 +10,22 @@ import com.coding.quiz_screen_impl.quiz_screen.mvi.QuizScreenState
 internal class QuizScreenModel(
     tag: String,
     private val getQuestions: GetQuestionsUseCase,
+    private val quizId: Int?
 ) : MviModel<QuizScreenAction, QuizScreenEffect, QuizScreenEvent, QuizScreenState>(
     defaultState = QuizScreenState.DEFAULT,
     tag = tag
 ) {
 
     override suspend fun bootstrap() {
-        getQuestions()
-            .onSuccess { list -> push(QuizScreenEffect.SetQuestions(list)) }
-            .onFailure { /* TODO: обработать ошибку */ }
+        val id = quizId ?: return
+        getQuestions(id)
+            .onSuccess { list ->
+                push(QuizScreenEffect.SetQuestions(list))
+            }
+            .onFailure {
+                println("getQuestions $it")
+                /* TODO: обработать ошибку */
+            }
     }
 
     override suspend fun actor(action: QuizScreenAction) {
@@ -35,7 +42,7 @@ internal class QuizScreenModel(
                 if (state.isFinished) return
                 val current = state.questions.getOrNull(state.currentIndex) ?: return
                 val selected = state.selectedIndex ?: return
-                val isCorrect = current.variants.getOrNull(selected) == current.answer
+                val isCorrect = current.options.getOrNull(selected) == current.correctAnswer
                 val newCorrect = state.correctCount + if (isCorrect) 1 else 0
                 val nextIndex = state.currentIndex + 1
                 val finished = nextIndex >= state.questions.size

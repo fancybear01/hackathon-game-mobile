@@ -1,5 +1,6 @@
 package com.coding.course_screen_impl.course_screen
 
+import com.coding.components.quiz.domain.usecase.GetSectionsUseCase
 import com.coding.course_screen_impl.course_screen.mvi.CourseScreenAction
 import com.coding.course_screen_impl.course_screen.mvi.CourseScreenEffect
 import com.coding.course_screen_impl.course_screen.mvi.CourseScreenEvent
@@ -7,11 +8,23 @@ import com.coding.course_screen_impl.course_screen.mvi.CourseScreenState
 import com.coding.mvi_koin_voyager.MviModel
 
 internal class CourseScreenModel(
-    tag: String
+    tag: String,
+    private val getSections: GetSectionsUseCase
 ) : MviModel<CourseScreenAction, CourseScreenEffect, CourseScreenEvent, CourseScreenState>(
-    defaultState = CourseScreenState,
+    defaultState = CourseScreenState.DEFAULT,
     tag = tag
 ) {
+    override suspend fun bootstrap() {
+        getSections()
+            .onSuccess { list ->
+                println("getSections: $list")
+                push(CourseScreenEffect.GetSections(list))
+            }
+            .onFailure {
+                println("getSections: $it")
+                /* TODO: обработать ошибку */
+            }
+    }
     override suspend fun actor(action: CourseScreenAction) {
         when (action) {
             is CourseScreenAction.ClickButtonToBack -> {
@@ -21,8 +34,18 @@ internal class CourseScreenModel(
                 push(CourseScreenEvent.NavigateToQuizScreen(action.quizId))
             }
             is CourseScreenAction.ClickOnTheory -> {
-                push(CourseScreenEvent.NavigateToTheoryScreen)
+                push(CourseScreenEvent.NavigateToTheoryScreen(theoryId = action.theoryId))
             }
         }
     }
+
+    override fun reducer(
+        effect: CourseScreenEffect,
+        previousState: CourseScreenState
+    ): CourseScreenState =
+        when (effect) {
+            is CourseScreenEffect.GetSections -> previousState.copy(
+                sections = effect.sections
+            )
+        }
 }

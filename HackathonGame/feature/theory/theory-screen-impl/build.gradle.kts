@@ -22,7 +22,8 @@ kotlin {
             implementation(projects.common.mvi.mviKoinVoyager)
             implementation(projects.core.recources)
             implementation(projects.core.settings)
-            implementation(project(":feature:theory:theory-screen-api"))
+            implementation(projects.feature.theory.theoryScreenApi)
+            implementation(projects.components.study)
 
             implementation(libs.kotlinx.coroutines.core)
 

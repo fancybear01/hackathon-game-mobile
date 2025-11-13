@@ -11,13 +11,25 @@ import com.coding.mvi_general.MviAction
 import com.coding.mvi_general.MviEvent
 import com.coding.mvi_general.MviState
 import kotlinx.coroutines.flow.Flow
+import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
 
 interface MviView<Action : MviAction, Event : MviEvent, State : MviState> : Screen {
 
+    // Новый интерфейс: если экран реализует его, параметры будут переданы в модель
+    interface ParamsProvider {
+        fun modelParams(): Array<Any>
+    }
+
     @Composable
     override fun Content() {
-        val model = getMviModel<MviModel<Action, *, Event, State>>()
+        val tag = this::class.simpleNameOrThrow
+        @Suppress("UNCHECKED_CAST")
+        val model = if (this is ParamsProvider) {
+            getScreenModel<MviModel<Action, *, Event, State>>(qualifier = named(tag), parameters = { parametersOf(*modelParams()) })
+        } else {
+            getScreenModel<MviModel<Action, *, Event, State>>(qualifier = named(tag))
+        }
         val state by model.stateFlow.collectAsState()
         content(
             state = state,

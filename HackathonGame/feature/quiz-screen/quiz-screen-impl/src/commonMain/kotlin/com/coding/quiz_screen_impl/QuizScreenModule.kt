@@ -8,6 +8,9 @@ import org.koin.dsl.module
 
 val quizScreenModule
     get() = module {
-        provideMviModel<QuizScreen> { tag, _ -> QuizScreenModel(tag, get()) }
+        provideMviModel<QuizScreen> { tag, params ->
+            val quizId: Int? = params.getOrNull()
+            QuizScreenModel(tag, get(), quizId = quizId)
+        }
         single<QuizScreenApi> { QuizScreenImpl() }
     }
