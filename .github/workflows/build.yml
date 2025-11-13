@@ -37,6 +37,6 @@ jobs:
         run: ./gradlew test
         working-directory: HackathonGame
 
-      - name: Static analysis (Detekt)
-        run: ./gradlew detekt
+      - name: Static analysis (Detekt & Ktlint)
+        run: ./gradlew detekt ktlintCheck
         working-directory: HackathonGame
